@@ -307,7 +307,7 @@ namespace FamilyTreeApi.Data
         public DbSet<NewsDetailsAdminDTO> NewsDetailsAdminDTO { get; set; }
         [NotMapped]
         public DbSet<UserParentsDTO> UserParentsDTO { get; set; }
-        
+
         #endregion
 
         #region dbset models 

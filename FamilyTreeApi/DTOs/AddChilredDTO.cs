@@ -40,5 +40,7 @@ namespace FamilyTreeApi.DTOs
         [Required]
         public int StatusId { get; set; }
         public string Image { get; set; }
+
+        public bool? IsLouck { get; set; }
     }
 }

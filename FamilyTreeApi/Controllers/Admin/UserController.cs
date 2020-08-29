@@ -346,6 +346,7 @@ namespace FamilyTreeApi.Controllers.Admin
                     userToCreate.UserTypeId = 2;
                     userToCreate.IdentityNumber = _userRepo.GenerateRandomIdentity(user.FamilyId);
                     userToCreate.AcceptedAdd = true;
+                    userToCreate.IsLouck = user.IsLouck;
 
                     userToCreate.CreatedDateM = DateTime.UtcNow.AddHours(3);
                     userToCreate.CreatedDateH = Convert.ToDateTime(_utitlities.ToHijri(userToCreate.CreatedDateM));
@@ -404,7 +405,6 @@ namespace FamilyTreeApi.Controllers.Admin
                 //user.UserName = user.UserName == "" ? user.Email : user.UserName;
                 //user.Password = user.Password == "" ? user.Email : user.Password;
                 //var userToCreate = _mapper.Map<User>(user);
-
                 var result = await _userRepo.UpdateUserInfo(user);
                 if (result)
                     return Ok();

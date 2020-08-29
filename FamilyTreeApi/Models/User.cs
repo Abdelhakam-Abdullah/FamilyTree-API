@@ -57,5 +57,7 @@ namespace FamilyTreeApi.Models
         public bool Allow_Monasabat { get; set; }
         public bool Allow_Mawaled { get; set; }
         public bool Allow_Wafeaat { get; set; }
+
+        public bool? IsLouck { get; set; } = false;
     }
 }

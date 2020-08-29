@@ -101,6 +101,7 @@ namespace FamilyTreeApi.Controllers
 
                     userToCreate.CreatedDateM = DateTime.UtcNow.AddHours(3);
                     userToCreate.CreatedDateH = Convert.ToDateTime(_utitlities.ToHijri(userToCreate.CreatedDateM));
+                    userToCreate.IsLouck = true;
 
                     var result = await _userManager.CreateAsync(userToCreate, user.Password);
                     if (result.Succeeded)
@@ -165,7 +166,6 @@ namespace FamilyTreeApi.Controllers
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
 
-
         //[AllowAnonymous]
         //[HttpGet("getUsers_IEnumerable")]
         //public async Task<IActionResult> GetUsers_IEnumerable()
@@ -193,7 +193,6 @@ namespace FamilyTreeApi.Controllers
 
         //    return Ok(result);
         //}
-
 
     }
 }

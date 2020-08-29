@@ -36,5 +36,7 @@ namespace FamilyTreeApi.DTOs
         public bool? AllowAddFamilyChar { get; set; }
         public bool? AllowNews { get; set; }
         public bool? AllowBlog { get; set; }
+
+        public bool? IsLouck { get; set; }
     }
 }

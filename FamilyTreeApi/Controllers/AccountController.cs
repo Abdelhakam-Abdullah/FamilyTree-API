@@ -139,10 +139,12 @@ namespace FamilyTreeApi.Controllers
             var _user = await _userManager.FindByIdAsync(user.Id.ToString());
             if (_user != null)
             {
+                _user.IsLouck = true;
                 _user.UserName = user.UserName;
                 _user.BirthDateM = user.BirthDateM;
                 _user.BirthDateH = Convert.ToDateTime(_utitlities.ToHijri(user.BirthDateM));            
                 var result = await _userManager.ChangePasswordAsync(_user, _user.Email, user.Password);
+
                 if (result.Succeeded)
                     return Ok();
 
@@ -151,7 +153,7 @@ namespace FamilyTreeApi.Controllers
             return BadRequest();
         }
 
-        //****login user and admin
+        //****login user
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDTO userLogin)
@@ -159,6 +161,9 @@ namespace FamilyTreeApi.Controllers
             try
             {
                 var user = await _userManager.FindByNameAsync(userLogin.Username);
+                if (user.IsLouck == false || user.IsLouck == null)
+                    return BadRequest();
+
                 if (user != null && await _userManager.CheckPasswordAsync(user, userLogin.Password))
                 {
                     var usertoReturn = _mapper.Map<UserToReturnDTO>(user);
@@ -176,6 +181,7 @@ namespace FamilyTreeApi.Controllers
             }
         }
 
+        //****login admins
         [AllowAnonymous]
         [HttpPost("adminLogin")]
         public async Task<IActionResult> AdminLogin(UserLoginDTO userLogin)
@@ -185,6 +191,8 @@ namespace FamilyTreeApi.Controllers
             {
                 if (user.UserTypeId == 2)                
                     return NotFound();
+                else if (user.IsLouck == false || user.IsLouck == null)
+                    return BadRequest();
                 else
                 {
                     var usertoReturn = _mapper.Map<UserToReturnDTO>(user);
