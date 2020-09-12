@@ -92,12 +92,12 @@ namespace FamilyTreeApi
             });
 
             //services.AddCors();
-
             string[] domains =
             {
-               "http://yasserproject-001-site1.btempurl.com",
                "http://localhost:4200",
-               "http://localhost:4201"
+               "http://localhost:4200/login",
+               "https://api.appalthunayan.com/",
+               "http://localhost:5000/"
             };
 
             services.AddCors(options =>
@@ -126,6 +126,7 @@ namespace FamilyTreeApi
             services.AddTransient<IUploaderRepo, UploaderRepo>();
             services.AddTransient<INewsImageRepo, NewsImageRepo>();
             services.AddTransient<IHomeRepo, HomeRepo>();
+            services.AddTransient<IRoleRepo, RoleRepo>();
             //services.AddRouting(options => options.LowercaseUrls = true);
 
             //Configuration signalR

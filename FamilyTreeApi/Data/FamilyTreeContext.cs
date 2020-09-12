@@ -208,6 +208,9 @@ namespace FamilyTreeApi.Data
             //modelBuilder.Ignore<UserNotificationsDTO>();
             //modelBuilder.Ignore<NewsDetailsAdminDTO>();
             //modelBuilder.Ignore<UserParentsDTO>();
+            //modelBuilder.Ignore<RoleListDTO>();
+            //modelBuilder.Ignore<UsersRoleListDTO>();
+            //modelBuilder.Ignore<AddUserRoleDTO>();
 
             #endregion
         }
@@ -307,7 +310,13 @@ namespace FamilyTreeApi.Data
         public DbSet<NewsDetailsAdminDTO> NewsDetailsAdminDTO { get; set; }
         [NotMapped]
         public DbSet<UserParentsDTO> UserParentsDTO { get; set; }
-
+        [NotMapped]
+        public DbSet<RoleListDTO> RoleListDTO { get; set; }
+        [NotMapped]
+        public DbSet<UsersRoleListDTO> UsersRoleListDTO { get; set; }
+        [NotMapped]
+        public DbSet<AddUserRoleDTO> AddUserRoleDTO { get; set; }
+        
         #endregion
 
         #region dbset models 
@@ -318,6 +327,7 @@ namespace FamilyTreeApi.Data
         public DbSet<UserLogin> UserLogin { get; set; }
         public DbSet<RoleClaim> RoleClaim { get; set; }
         public DbSet<UserToken> UserToken { get; set; }
+
         public DbSet<Blog> Blog { get; set; }
         public DbSet<BlogComment> BlogComment { get; set; }
         public DbSet<UserType> UserType { get; set; }

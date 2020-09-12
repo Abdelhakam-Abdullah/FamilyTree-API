@@ -27,8 +27,8 @@ namespace FamilyTreeApi.Controllers
         private readonly IUtitlities _utitlities;
         private readonly IUploaderRepo _uploaderRepo;
         private readonly IGeneralSettings _generalSettings;
-
         private IHostingEnvironment _hostingEnvironment;
+        private readonly IRoleRepo _roleRepo;
 
         public AccountController(IMapper mapper,
                            IUserRepo userRepo,
@@ -38,7 +38,8 @@ namespace FamilyTreeApi.Controllers
                            IOptions<AppSettings> options,
                            IHostingEnvironment HostingEnvironment,
                            IUploaderRepo UploaderRepo,
-                           IGeneralSettings generalSettings)
+                           IGeneralSettings generalSettings,
+                           IRoleRepo roleRepo)
         {
             _userRepo = userRepo;
             _utitlities = utitlities;
@@ -49,7 +50,9 @@ namespace FamilyTreeApi.Controllers
             _hostingEnvironment = HostingEnvironment;
             _uploaderRepo = UploaderRepo;
             _generalSettings = generalSettings;
+            _roleRepo = roleRepo;
         }
+
 
         [AllowAnonymous]
         [HttpPost("register")]
@@ -81,6 +84,34 @@ namespace FamilyTreeApi.Controllers
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
 
+        //****login user
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserLoginDTO userLogin)
+        {
+            try
+            {
+                var user = await _userManager.FindByNameAsync(userLogin.Username);
+                if (user.IsLouck == true || user.IsLouck == null)
+                    return BadRequest();
+
+                if (user != null && await _userManager.CheckPasswordAsync(user, userLogin.Password))
+                {
+                    var usertoReturn = _mapper.Map<UserToReturnDTO>(user);
+                    return Ok(new
+                    {
+                        token = _utitlities.GenerateToken(user, _options),
+                        user = usertoReturn
+                    });
+                }
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+    
         [AllowAnonymous]
         [HttpPost("register2")]
         public async Task<IActionResult> Register2(UserRegisterDTO user)
@@ -153,61 +184,42 @@ namespace FamilyTreeApi.Controllers
             return BadRequest();
         }
 
-        //****login user
-        [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginDTO userLogin)
-        {
-            try
-            {
-                var user = await _userManager.FindByNameAsync(userLogin.Username);
-                if (user.IsLouck == false || user.IsLouck == null)
-                    return BadRequest();
-
-                if (user != null && await _userManager.CheckPasswordAsync(user, userLogin.Password))
-                {
-                    var usertoReturn = _mapper.Map<UserToReturnDTO>(user);
-                    return Ok(new
-                    {
-                        token = _utitlities.GenerateToken(user, _options),
-                        user = usertoReturn
-                    });
-                }
-                return BadRequest();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         //****login admins
         [AllowAnonymous]
         [HttpPost("adminLogin")]
         public async Task<IActionResult> AdminLogin(UserLoginDTO userLogin)
         {
-            var user = await _userManager.FindByNameAsync(userLogin.Username);
-            if (user != null && await _userManager.CheckPasswordAsync(user, userLogin.Password))
+            try
             {
-                if (user.UserTypeId == 2)                
-                    return NotFound();
-                else if (user.IsLouck == false || user.IsLouck == null)
-                    return BadRequest();
-                else
+                var user = await _userManager.FindByNameAsync(userLogin.Username);
+                var role = await _roleRepo.GetRoleNameByUser(user.Id);
+                if (user != null && await _userManager.CheckPasswordAsync(user, userLogin.Password))
                 {
-                    var usertoReturn = _mapper.Map<UserToReturnDTO>(user);
-                    var CPanelLogo = _generalSettings.GetSettings().CPanelLogo;
-                    var AppName = _generalSettings.GetSettings().AppName;
-                    return Ok(new
+                    if (user.UserTypeId == 2)
+                        return NotFound();
+                    else if (user.IsLouck == true || user.IsLouck == null)
+                        return BadRequest();
+                    else
                     {
-                        token = _utitlities.GenerateToken(user, _options),
-                        user = usertoReturn,
-                        cPanelLogo = CPanelLogo,
-                        appName = AppName
-                    });
+                        var usertoReturn = _mapper.Map<UserToReturnDTO>(user);
+                        var CPanelLogo = _generalSettings.GetSettings().CPanelLogo;
+                        var AppName = _generalSettings.GetSettings().AppName;
+                        return Ok(new
+                        {
+                            token = _utitlities.GenerateToken(user, _options),
+                            user = usertoReturn,
+                            cPanelLogo = CPanelLogo,
+                            appName = AppName,
+                            roleName = role.NameEn
+                        });
+                    }
                 }
+                return NotFound();
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         //****Update user profile and admin profile

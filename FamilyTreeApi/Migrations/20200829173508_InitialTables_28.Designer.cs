@@ -4,14 +4,16 @@ using FamilyTreeApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FamilyTreeApi.Migrations
 {
     [DbContext(typeof(FamilyTreeContext))]
-    partial class FamilyTreeContextModelSnapshot : ModelSnapshot
+    [Migration("20200829173508_InitialTables_28")]
+    partial class InitialTables_28
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -293,8 +295,6 @@ namespace FamilyTreeApi.Migrations
 
                     b.Property<string>("Name")
                         .HasMaxLength(256);
-
-                    b.Property<string>("NameAr");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256);

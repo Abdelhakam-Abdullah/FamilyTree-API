@@ -18,5 +18,6 @@ namespace FamilyTreeApi.Data.IRepository
         string GetHijryDate(DateTime dt);
         string ToHijri(DateTime dt);
         DateTime GetDate_EG(DateTime dt);
+        string GetCurrentDomainName();
     }
 }

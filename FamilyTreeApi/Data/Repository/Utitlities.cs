@@ -1,5 +1,6 @@
 ﻿using FamilyTreeApi.Data.IRepository;
 using FamilyTreeApi.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -19,9 +20,16 @@ namespace FamilyTreeApi.Data.Repository
     public class Utitlities : ControllerBase, IUtitlities
     {
         private readonly IGeneralSettings _generalSettings;
-        public Utitlities(IGeneralSettings generalSettings)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public Utitlities(IGeneralSettings generalSettings, IHttpContextAccessor httpContextAccessor)
         {
             _generalSettings = generalSettings;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        public string GetCurrentDomainName()
+        {
+            return _httpContextAccessor.HttpContext.Request.Host.Value;
         }
 
         public DateTime GetKSADate()

@@ -17,6 +17,7 @@ namespace FamilyTreeApi.Helpers
             CreateMap<User, UserToReturnDTO>();
             CreateMap<User, UserCompleteRegisterDTO>();
             CreateMap<User, UserUpdateReturnDTO>();
+            CreateMap<AddUserRoleDTO, User>();
         }
         
     }

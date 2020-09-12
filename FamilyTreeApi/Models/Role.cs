@@ -8,5 +8,7 @@ namespace FamilyTreeApi.Models
 {
     public class Role : IdentityRole<int>
     {
+        public string NameAr { get; set; }
+        public virtual ICollection<RolePermission> RolePermission { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FamilyTreeApi.Data.IRepository;
 using FamilyTreeApi.DTOs;
 using FamilyTreeApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,7 @@ namespace FamilyTreeApi.Controllers.Admin
             _hostingEnvironment = HostingEnvironment;
         }
 
+        [AllowAnonymous]
         [HttpGet("getSettings")]
         public IActionResult GetBlogs()
         {
@@ -39,8 +41,9 @@ namespace FamilyTreeApi.Controllers.Admin
             try
             {
                 var result = await _generalSettings.Add(settings);
+                var _settings = _generalSettings.GetSettings();
                 if (result)
-                    return Ok();
+                    return Ok(_settings);
 
                 return BadRequest();
             }

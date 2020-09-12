@@ -19,7 +19,7 @@ namespace FamilyTreeApi.Data.Repository
 
         public Settings GetSettings()
         {
-            return _context.Set<Settings>().FromSql("GetSettings").FirstOrDefault();
+            return _context.Set<Settings>().FromSql("GetSettings").FirstOrDefault() == null ? new Settings() : _context.Set<Settings>().FromSql("GetSettings").FirstOrDefault();
         }
 
         public async Task<Settings> GetSettingsById(int id)
