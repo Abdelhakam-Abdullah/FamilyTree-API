@@ -121,9 +121,10 @@ namespace FamilyTreeApi.Data.Repository
         
         public async Task<List<TreeAdminDTO>> GetFamilyTree_4Admin()
         {
+            var roles = await _context.UserRole.Where(ur => ur.RoleId == 1).FirstOrDefaultAsync();
+
             listAllUsers = await _context.User
-                                    .Where(u => u.IsDelete == false)
-                                    .Where(u => u.AcceptedAdd == true)
+                                    .Where(u => u.IsDelete == false && u.AcceptedAdd == true && u.Id != roles.UserId)
                                     .ToListAsync();
             var lstResult = new List<TreeAdminDTO>();
 
@@ -557,6 +558,12 @@ namespace FamilyTreeApi.Data.Repository
                 };
             var StoredName = "DeleteUser {0}";
             return await _context.Database.ExecuteSqlCommandAsync(StoredName, parameters) > 0;
+        }
+
+        public async Task<IEnumerable<UsersParentsDTO>> GetUserParent(int parentId)
+        {
+            object[] parameters = { parentId };
+            return await _context.Set<UsersParentsDTO>().FromSql("GetUsersByParent {0}", parameters).ToListAsync();
         }
 
 

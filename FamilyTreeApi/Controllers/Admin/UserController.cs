@@ -446,5 +446,19 @@ namespace FamilyTreeApi.Controllers.Admin
 
             return BadRequest();
         }
+
+        [HttpGet("deleteUserParent/{id}")]
+        public async Task<IActionResult> deleteUserParent(int id)
+        {
+            var users = await _userRepo.GetUserParent(id);
+            if(users.Count() > 0)
+                return BadRequest();
+
+            var result = await _userRepo.DeleteUser(id);
+            if (result)
+                return Ok();
+
+            return BadRequest();
+        }
     }
 }

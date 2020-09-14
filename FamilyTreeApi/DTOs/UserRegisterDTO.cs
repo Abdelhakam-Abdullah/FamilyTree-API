@@ -10,7 +10,7 @@ namespace FamilyTreeApi.DTOs
     {
         public int? ParentId { get; set; }
 
-        [Required]
+        //[Required]
         public int FamilyId { get; set; }
 
         public string IdentityNumber { get; set; }

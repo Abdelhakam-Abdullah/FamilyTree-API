@@ -75,7 +75,7 @@ namespace FamilyTreeApi.Controllers.Admin
                     var userToCreate = _mapper.Map<User>(addUserRole);
 
                     userToCreate.UserName = addUserRole.UserName;
-                    userToCreate.UserTypeId = 2;
+                    userToCreate.UserTypeId = 4;
                     userToCreate.FamilyId = 1;
                     userToCreate.CreatedDateM = DateTime.UtcNow.AddHours(3);
                     userToCreate.CreatedDateH = Convert.ToDateTime(_utitlities.ToHijri(userToCreate.CreatedDateM));

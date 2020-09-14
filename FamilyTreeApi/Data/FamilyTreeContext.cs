@@ -211,6 +211,7 @@ namespace FamilyTreeApi.Data
             //modelBuilder.Ignore<RoleListDTO>();
             //modelBuilder.Ignore<UsersRoleListDTO>();
             //modelBuilder.Ignore<AddUserRoleDTO>();
+            //modelBuilder.Ignore<UsersParentsDTO>();
 
             #endregion
         }
@@ -316,7 +317,9 @@ namespace FamilyTreeApi.Data
         public DbSet<UsersRoleListDTO> UsersRoleListDTO { get; set; }
         [NotMapped]
         public DbSet<AddUserRoleDTO> AddUserRoleDTO { get; set; }
-        
+
+        [NotMapped]
+        public DbSet<UsersParentsDTO> UsersParentsDTO { get; set; }        
         #endregion
 
         #region dbset models 

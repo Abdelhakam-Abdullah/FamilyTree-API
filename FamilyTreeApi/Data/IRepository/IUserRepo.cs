@@ -58,5 +58,6 @@ namespace FamilyTreeApi.Data.IRepository
         Task<List<TreeDTO>> GetFamilyTree_4Mobile(int pageNo);
         Task<IEnumerable<UserParentsDTO>> GetParents();
         Task<bool> DeleteUser(int userId);
+        Task<IEnumerable<UsersParentsDTO>> GetUserParent(int parentId);
     }
 }
