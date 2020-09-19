@@ -41,7 +41,7 @@ namespace FamilyTreeApi.Data.IRepository
         Task<IEnumerable<Gender>> GetGenderTypes();
         Task<IEnumerable<UserReturnDTO>> GetUsersNotAccepted(int pageNo);
         int GetUser_AllCountNotAccepted();
-        Task<UserReturnDTO> GetFather(int parentId);
+        Task<UserReturnDTO> GetFather(int? parentId);
         Task<bool> AcceptUserAdd(int userId, bool acceptAdd);
         Task<IEnumerable<UserReturnDTO>> FilterUserNotAccepted(int userId, string search);
         Task<UserProfileDTO> GetUserProfileById(int id);

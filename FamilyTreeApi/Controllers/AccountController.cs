@@ -93,7 +93,7 @@ namespace FamilyTreeApi.Controllers
             {
                 var user = await _userManager.FindByNameAsync(userLogin.Username);
                 if (user.IsLouck == true || user.IsLouck == null)
-                    return BadRequest();
+                    return BadRequest("loucked");
 
                 if (user != null && await _userManager.CheckPasswordAsync(user, userLogin.Password))
                 {
@@ -198,7 +198,7 @@ namespace FamilyTreeApi.Controllers
                     if (user.UserTypeId == 2)
                         return NotFound();
                     else if (user.IsLouck == true || user.IsLouck == null)
-                        return BadRequest();
+                        return BadRequest("loucked");
                     else
                     {
                         var usertoReturn = _mapper.Map<UserToReturnDTO>(user);

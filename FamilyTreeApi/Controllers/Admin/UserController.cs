@@ -383,6 +383,30 @@ namespace FamilyTreeApi.Controllers.Admin
             }
         }
 
+        [HttpGet("getUserInfoForMob/{id}")]
+        public async Task<IActionResult> GetUserInfoForMob(int id)
+        {
+            try
+            {
+                var UserInfo = await _userRepo.GetUserInfo(id);
+                var Wifes = await _wifeRepo.GetWifesByUser(id);
+                var Children = await _userRepo.GetUserChildren(id);
+                var Father = await _userRepo.GetFather(UserInfo.ParentId);
+
+                return Ok(new
+                {
+                    userInfo = UserInfo,
+                    wifes = Wifes,
+                    children = Children,
+                    father = Father
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         [HttpGet("getUserChildren/{id}")]
         public async Task<IActionResult> GetUserChildren(int id)
         {

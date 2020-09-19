@@ -95,9 +95,9 @@ namespace FamilyTreeApi
             string[] domains =
             {
                "http://localhost:4200",
-               "http://localhost:4200/login",
                "https://api.appalthunayan.com/",
-               "http://localhost:5000/"
+               "http://localhost:5000/",
+               "https://appalthunayan.com"
             };
 
             services.AddCors(options =>

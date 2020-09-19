@@ -203,7 +203,7 @@ namespace FamilyTreeApi.Data.Repository
             return await _context.Set<UserReturnDTO>().FromSql("GetUsers {0},{1}", parameters).ToListAsync();
         }
 
-        public async Task<UserReturnDTO> GetFather(int parentId)
+        public async Task<UserReturnDTO> GetFather(int? parentId)
         {
             object[] parameters = { parentId };
             return await _context.Set<UserReturnDTO>().FromSql("GetFather {0}", parameters).FirstOrDefaultAsync();
@@ -547,7 +547,14 @@ namespace FamilyTreeApi.Data.Repository
 
         public async Task<IEnumerable<UserParentsDTO>> GetParents()
         {
-            return await _context.Set<UserParentsDTO>().FromSql("GetParents").ToListAsync();
+            var parents = await _context.Set<UserParentsDTO>().FromSql("GetParents").ToListAsync();
+            var list = new List<UserParentsDTO>();
+            foreach (var item in list)
+            {
+
+            }
+
+            return parents;
         }
 
         public async Task<bool> DeleteUser(int userId)
