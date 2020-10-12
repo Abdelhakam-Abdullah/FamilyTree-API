@@ -83,34 +83,6 @@ namespace FamilyTreeApi.Controllers
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
-
-        //****login user
-        [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginDTO userLogin)
-        {
-            try
-            {
-                var user = await _userManager.FindByNameAsync(userLogin.Username);
-                if (user.IsLouck == true || user.IsLouck == null)
-                    return BadRequest("loucked");
-
-                if (user != null && await _userManager.CheckPasswordAsync(user, userLogin.Password))
-                {
-                    var usertoReturn = _mapper.Map<UserToReturnDTO>(user);
-                    return Ok(new
-                    {
-                        token = _utitlities.GenerateToken(user, _options),
-                        user = usertoReturn
-                    });
-                }
-                return BadRequest();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
     
         [AllowAnonymous]
         [HttpPost("register2")]
@@ -182,6 +154,35 @@ namespace FamilyTreeApi.Controllers
                 return BadRequest(result.Errors);
             }
             return BadRequest();
+        }
+
+
+        //****login user
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserLoginDTO userLogin)
+        {
+            try
+            {
+                var user = await _userManager.FindByNameAsync(userLogin.Username);
+                if (user.IsLouck == true || user.IsLouck == null)
+                    return BadRequest("loucked");
+
+                if (user != null && await _userManager.CheckPasswordAsync(user, userLogin.Password))
+                {
+                    var usertoReturn = _mapper.Map<UserToReturnDTO>(user);
+                    return Ok(new
+                    {
+                        token = _utitlities.GenerateToken(user, _options),
+                        user = usertoReturn
+                    });
+                }
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         //****login admins
